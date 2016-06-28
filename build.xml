@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<project name="Struts chapter1" default="init">
+  <property file="build.properties"/>
+  <property file="${src.dir}/dbpool.properties"/>
+  <property environment="env"/>
+
+  <target name="init">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.webinf.dir}"/>
+    <mkdir dir="${build.webinf.dir}/lib"/>
+    <mkdir dir="${build.src.dir}"/>
+    <mkdir dir="${build.class.dir}"/>
+    <mkdir dir="${dist.dir}"/>
+    <path id="chapter1.class.path">
+      <fileset dir="${lib.dir}"	includes="**/*.jar" />
+    </path>
+
+  </target>
+
+  <target name="compile" depends="init">
+    <javac srcdir="${build.src.dir}" destdir="${build.class.dir}"
+           debug="true" deprecation="true">
+      <classpath refid="chapter1.class.path"/>
+    </javac>
+    <copy file="${build.src.dir}/dbpool.properties" todir="${build.class.dir}"/>
+  </target>
+
+  <target name="db" depends="init">
+    <sql driver="${drivers}"
+         url="${mysql.url}"
+         userid="${mysql.user}"
+         password="${mysql.password}"
+         src="${resource.dir}/chapter1.sql">
+    <classpath refid="chapter1.class.path"/>
+    </sql>
+  </target>
+
+  <!-- ============================================== -->
+  <!--                                                -->
+  <!-- Model1 Resources, Jar, JSP COPY                -->
+  <!--                                                -->
+  <!-- ============================================== -->
+  <target name="model1copy" depends="init">
+    <copy file="${src.dir}/dbpool.properties" todir="${build.class.dir}"/>
+    <copy todir="${build.webinf.dir}/lib">
+      <fileset dir="${lib.dir}">
+      </fileset>
+    </copy>
+    <copy todir="${build.webinf.dir}/src">
+      <fileset dir="${src.dir}">
+        <include name="**/*.java"/>
+        <include name="**/dbpool.properties"/>
+        <exclude name="**/model2/**/*"/>
+        <exclude name="**/struts/**/*"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.dir}">
+      <fileset dir="${web.dir}">
+        <include name="**/css/*"/>
+        <include name="**/model1/*"/>
+        <include name="**/WEB-INF/*.xml"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="war" depends="init">
+    <war
+        destFile="${dist.dir}/${war.name}"
+        webxml="${build.dir}/WEB-INF/web.xml"
+    >
+      <fileset dir="${build.dir}" includes="**/*" />
+    </war>
+  </target>
+  <!-- ============================================== -->
+  <!--                                                -->
+  <!-- Clean                                          -->
+  <!--                                                -->
+  <!-- ============================================== -->
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+
+  <target name="model1">
+    <antcall target="clean" />
+    <antcall target="model1copy" />
+    <antcall target="compile" />
+    <antcall target="war" />
+  </target>
+
+</project>
