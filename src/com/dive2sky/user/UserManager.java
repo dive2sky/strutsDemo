@@ -18,7 +18,7 @@ public class UserManager {
   public int create(User user) throws SQLException, ExistedUserException {
 
     if(getUserDao().existedUser(user.getUserId())) {
-      throw new ExistedUserException(user.getUserId() + "´Â Á¸ÀçÇÏ´Â ¾ÆÀÌµğÀÔ´Ï´Ù.");
+      throw new ExistedUserException(user.getUserId() + "ëŠ” ì¡´ì¬í•˜ëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤.");
     }
     return getUserDao().create(user);
   }
@@ -35,7 +35,7 @@ public class UserManager {
     User user = getUserDao().findUser(userId);
 
     if (user == null) {
-      throw new UserNotFoundException(userId + "´Â Á¸ÀçÇÏÁö ¾Ê´Â ¾ÆÀÌµğÀÔ´Ï´Ù.");
+      throw new UserNotFoundException(userId + "ëŠ” ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤.");
     }
 
     return user;
@@ -49,7 +49,7 @@ public class UserManager {
     User user = getUserDao().findUser(userId);
 
     if(user.isMatchPassword(password)) {
-      throw new PasswordMismatchException("ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+      throw new PasswordMismatchException("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
     }
 
     return true;
