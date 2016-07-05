@@ -20,7 +20,7 @@
 
   <target name="compile" depends="init">
     <javac srcdir="${build.src.dir}" destdir="${build.class.dir}"
-           debug="true" deprecation="true">
+           debug="true" deprecation="true" encoding="utf-8">
       <classpath refid="chapter1.class.path"/>
     </javac>
     <copy file="${build.src.dir}/dbpool.properties" todir="${build.class.dir}"/>
@@ -57,6 +57,7 @@
     </copy>
     <copy todir="${build.dir}">
       <fileset dir="${web.dir}">
+        <include name="**/*"/>
         <include name="**/css/*"/>
         <include name="**/model1/*"/>
         <include name="**/WEB-INF/*.xml"/>
