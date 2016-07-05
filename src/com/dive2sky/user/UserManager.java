@@ -48,7 +48,7 @@ public class UserManager {
   public boolean login(String userId, String password) throws SQLException, PasswordMismatchException {
     User user = getUserDao().findUser(userId);
 
-    if(user.isMatchPassword(password)) {
+    if(!user.isMatchPassword(password)) {
       throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
     }
 
