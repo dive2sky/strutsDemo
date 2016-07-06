@@ -1,0 +1,14 @@
+<struts-config>
+  <form-bean>
+    <form-bean name="userForm" type="com.dive2sky.struts.form.UserForm"/>
+  </form-bean>
+
+  <action
+      attribute="userForm"
+      input="/struts/user_write.jsp"
+      name="userForm"
+      path="/user_write"
+      type="com.dive2sky.struts.action.InsertAction">
+    <forward name="user_list" path="/user_list.do" redirect="true"/>
+  </action>
+</struts-config>

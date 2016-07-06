@@ -76,7 +76,7 @@
       <fileset dir="${src.dir}">
         <include name="**/*.java"/>
         <include name="**/dbpool.properties"/>
-        <include name="**/struts/**/*"/>
+        <exclude name="**/struts/**/*"/>
       </fileset>
     </copy>
     <copy todir="${build.dir}">
@@ -88,6 +88,27 @@
     </copy>
   </target>
 
+  <target name="strutscopy" depends="init">
+    <copy file="${src.dir}/dbpool.properties" todir="${build.class.dir}"/>
+    <copy todir="${build.webinf.dir}/lib">
+      <fileset dir="${lib.dir}">
+      </fileset>
+    </copy>
+    <copy todir="${build.webinf.dir}/src">
+      <fileset dir="${src.dir}">
+        <include name="**/*.java"/>
+        <include name="**/dbpool.properties"/>
+        <exclude name="**/model2/**/*"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.dir}">
+      <fileset dir="${web.dir}">
+        <include name="**/css/*"/>
+        <include name="**/struts/*"/>
+        <include name="**/WEB-INF/*.xml"/>
+      </fileset>
+    </copy>
+  </target>
 
   <target name="war" depends="init">
     <war
@@ -117,6 +138,13 @@
   <target name="model2">
     <antcall target="clean"/>
     <antcall target="model2copy"/>
+    <antcall target="compile"/>
+    <antcall target="war"/>
+  </target>
+
+  <target name="struts">
+    <antcall target="clean"/>
+    <antcall target="strutscopy"/>
     <antcall target="compile"/>
     <antcall target="war"/>
   </target>
