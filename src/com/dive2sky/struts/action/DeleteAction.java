@@ -1,47 +1,49 @@
 package com.dive2sky.struts.action;
 
 import com.dive2sky.struts.form.UserForm;
-import com.dive2sky.user.User;
 import com.dive2sky.user.UserManager;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  * @struts.action
- *      name="userForm"
- *      path="/user_write"
- *      input="/struts/user_write.jsp"
+ *      path="/user_remove"
+ * 		name="userForm"
  *      scope="request"
- *      validate="true"
  *
  * @struts.action-forward
  *      name="user_list"
  *      path="/user_list.do"
  * 		redirect="true"
  */
-public class InsertAction extends Action {
+public class DeleteAction extends Action {
 
   public ActionForward execute(
       ActionMapping mapping,
       ActionForm form,
       HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
+      HttpServletResponse response
+  ) {
     UserForm userForm = (UserForm) form;
+    String userId = userForm.getUserId();
 
-    User user = new User();
-
-    PropertyUtils.copyProperties(user, userForm);
-
-    UserManager manager = UserManager.instance();
-    manager.create(user);
+    UserManager userManager = UserManager.instance();
+    try {
+      userManager.remove(userId);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
     return mapping.findForward("user_list");
+
   }
 }
