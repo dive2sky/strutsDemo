@@ -52,7 +52,7 @@
                             <%= user.getUserId() %>
                         </td>
                         <td width=200 bgcolor="ffffff" style="padding-left:10">
-                            <a href="user_view.jsp?userId=<%= user.getUserId() %>" class="user">
+                            <a href="user_view.do?userId=<%= user.getUserId() %>" class="user">
                                 <%= user.getName() %>
                             </a>
                         </td>

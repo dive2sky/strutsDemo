@@ -29,8 +29,11 @@
 
     <action
         path="/struts/user_modifyForm"
-        type="org.apache.struts.actions.ForwardAction"
-        parameter="/struts/user_modify.jsp"/>
+        type="com.dive2sky.struts.action.UpdateFormAction"
+        name="userForm"
+        scope="request">
+      <forward name="user_modify" path="/struts/user_modify.jsp" redirect="false"/>
+    </action>
 
     <action
       path="/struts/user_remove"
@@ -40,13 +43,32 @@
       <forward name="user_list" path="/struts/user_list.do" redirect="true"/>
     </action>
 
-    <action path="/struts/user_list" type="com.dive2sky.struts.action.ListAction">
-      <forward name="user_list" path="/struts/user_list.jsp"/>
+    <action
+      path="/struts/user_modify"
+      type="com.dive2sky.struts.action.UpdateAction"
+      name="userForm"
+      input="struts/user_modify.jsp"
+      scope="request">
+      <forward name="user_list" path="/struts/user_list.do" redirect="true"/>
     </action>
 
+    <action path="/struts/user_list" type="com.dive2sky.struts.action.ListAction">
+      <forward name="user_list" path="/struts/user_list.jsp" redirect="false"/>
+    </action>
+
+    <action
+      path="/struts/user_view"
+      type="com.dive2sky.struts.action.ViewAction"
+      name="userForm"
+      scope="request">
+      <forward name="user_view" path="/struts/user_view.jsp" redirect="false"/>
+    </action>
     <action
         path="/struts/user_writeForm"
         type="org.apache.struts.actions.ForwardAction"
         parameter="/struts/user_write.jsp" />
+    <action path="/struts/loginForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/struts/login.jsp" />
   </action-mappings>
 </struts-config>
